@@ -1,1 +1,2 @@
-# two-degrees-of-separation
+# blank-degrees-of-separation
+Intimate gatherings, curiosity, connection & creation. 

@@ -1,2 +1,2 @@
-# blank-degrees-of-separation
-Intimate gatherings, curiosity, connection & creation. 
+# degrees-of-separation
+Intimate gatherings. Handcrafted. Curiosity. Connection. CREATION!!!!

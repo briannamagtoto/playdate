@@ -1,2 +1,2 @@
-# degrees-of-separation
+# playdate
 Intimate gatherings. Handcrafted. Curiosity. Connection. CREATION!!!!

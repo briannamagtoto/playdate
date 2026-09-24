@@ -1,4 +1,92 @@
+@font-face {
+    font-family: "Cirrus Cumulus";
+    src: url("fonts/CirrusCumulus.otf") format("opentype");
+    font-display: swap;
+}
+
 body {
     margin-left: 5%;
     margin-right: 5%;
+}
+
+/* Home: layout mirrors the 1512×982 Figma frame, scaled to fit the viewport.
+   --u is one design pixel; everything is positioned from the viewport center. */
+body.home {
+    --u: min(100vw / 1512, 100vh / 982);
+    margin: 0;
+    height: 100vh;
+    height: 100dvh;
+    overflow: hidden;
+    position: relative;
+    background: #fff;
+}
+
+.wordmark,
+.info-link {
+    position: absolute;
+    top: calc(50% + (73 - 491) * var(--u));
+    margin: 0;
+    font-family: "Cirrus Cumulus", sans-serif;
+    font-size: calc(64 * var(--u));
+    font-weight: normal;
+    line-height: normal;
+    color: #000;
+    white-space: nowrap;
+}
+
+.wordmark {
+    left: calc(50% + (89 - 756) * var(--u));
+}
+
+.info-link {
+    top: calc(50% + (160 - 491) * var(--u));
+    left: calc(50% + (1189 - 756) * var(--u));
+    text-decoration: none;
+}
+
+.info-link:hover,
+.info-link:focus-visible {
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.15em;
+}
+
+.ring {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+}
+
+.tile {
+    position: absolute;
+    width: calc(191 * var(--u));
+    height: calc(66 * var(--u));
+    left: calc(-191 / 2 * var(--u));
+    top: calc(-66 / 2 * var(--u));
+    box-sizing: border-box;
+    border: 0.5px solid #000;
+    object-fit: cover;
+    transform: rotate(var(--angle)) translateY(calc(-389 * var(--u)));
+}
+
+/* Portrait screens: let the ring fill the width and push it below the labels */
+@media (max-aspect-ratio: 1/1) {
+    body.home {
+        --u: min(100vw / 960, 100vh / 1300);
+    }
+
+    .wordmark {
+        left: 5vw;
+        top: 4vh;
+    }
+
+    .info-link {
+        left: auto;
+        right: 5vw;
+        top: 4vh;
+    }
+
+    .ring {
+        top: calc(50% + 90 * var(--u));
+    }
 }

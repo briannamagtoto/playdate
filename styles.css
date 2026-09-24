@@ -9,9 +9,8 @@ body {
     margin-right: 5%;
 }
 
-/* Home: layout mirrors the 1512×982 Figma frame, scaled to fit the viewport.
-   --u is one design pixel; everything is positioned from the viewport center. */
 body.home {
+    /* one Figma-frame pixel */
     --u: min(100vw / 1512, 100vh / 982);
     margin: 0;
     height: 100vh;
@@ -44,17 +43,64 @@ body.home {
     text-decoration: none;
 }
 
-.info-link:hover,
 .info-link:focus-visible {
-    text-decoration: underline;
-    text-decoration-thickness: 1px;
-    text-underline-offset: 0.15em;
+    outline: 1px solid #000;
+    outline-offset: 0.1em;
+}
+
+.char {
+    display: inline-block;
+    white-space: pre;
+    rotate: var(--lean, 0deg);
+    animation: wave 6s ease-in-out infinite;
+    animation-delay: calc(var(--i) * 90ms);
+}
+
+.info-link .char {
+    animation-delay: calc(1.2s + var(--i) * 90ms);
+}
+
+.info-link:hover .char,
+.info-link:focus-visible .char {
+    animation: wave-quick 0.9s ease-in-out infinite;
+    animation-delay: calc(var(--i) * 70ms);
+}
+
+.char.hop {
+    position: relative;
+    z-index: 1;
+    animation: hop 0.6s cubic-bezier(0.2, 1.8, 0.4, 1) both;
+    animation-delay: var(--pop-delay, 0ms);
+}
+
+.wordmark {
+    cursor: pointer;
+    user-select: none;
+}
+
+@keyframes wave {
+    0%, 12%, 100% { translate: 0 0; }
+    6% { translate: 0 -0.12em; }
+}
+
+@keyframes wave-quick {
+    0%, 50%, 100% { translate: 0 0; }
+    25% { translate: 0 -0.15em; }
+}
+
+@keyframes hop {
+    0% { scale: 1; }
+    35% { scale: 1.7; }
+    65% { scale: 0.9; }
+    100% { scale: 1; }
 }
 
 .ring {
     position: absolute;
     top: 50%;
     left: 50%;
+    transform: rotate(var(--spin, 0deg));
+    transform-origin: 0 0;
 }
 
 .tile {
@@ -69,7 +115,203 @@ body.home {
     transform: rotate(var(--angle)) translateY(calc(-389 * var(--u)));
 }
 
-/* Portrait screens: let the ring fill the width and push it below the labels */
+.collage-layer {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.ring {
+    z-index: 1;
+}
+
+.wordmark,
+.info-link {
+    z-index: 11;
+}
+
+.pop {
+    position: absolute;
+    top: 0;
+    left: 0;
+    transition: opacity 2.5s ease;
+}
+
+.pop img {
+    display: block;
+    max-width: max(190px, calc(320 * var(--u)));
+    max-height: max(190px, calc(320 * var(--u)));
+}
+
+.pop:not(.shown) {
+    visibility: hidden;
+}
+
+.pop.shown img {
+    animation: fade-in 1.5s ease both;
+}
+
+.pop.leaving {
+    opacity: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .char,
+    .char.hop,
+    .info-link:hover .char,
+    .popup-signup.nudge {
+        animation: none;
+    }
+
+    .tile {
+        transition: none;
+    }
+}
+
+@keyframes fade-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+body.signup {
+    margin: 0;
+    padding: 24px 16px 64px;
+    background: #fff;
+    color: #000;
+}
+
+.signup-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+.signup-wordmark,
+.signup-info {
+    font-family: "Cirrus Cumulus", sans-serif;
+    font-weight: normal;
+    color: #000;
+    text-decoration: none;
+}
+
+.signup-wordmark,
+.signup-info {
+    font-size: clamp(32px, 5vw, 64px);
+}
+
+.signup-main {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+    pointer-events: none;}
+
+.under-construction {
+    margin: 0;
+    font-family: "Cirrus Cumulus", sans-serif;
+    font-size: clamp(32px, 6vw, 72px);
+    text-align: center;
+}
+
+.sticker-popup {
+    position: fixed;
+    inset: 0;
+    z-index: 20;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: clamp(24px, 5vh, 56px);
+    padding: 16px;
+    background: #fff;
+}
+
+.sticker-popup[hidden] {
+    display: none;
+}
+
+.popup-sticker {
+    width: min(80vw, 900px);
+    aspect-ratio: 1230 / 427;
+    height: auto;
+    box-sizing: border-box;
+    border: 1px solid #000;
+    object-fit: cover;
+}
+
+.popup-signup {
+    font-family: "Cirrus Cumulus", sans-serif;
+    font-size: clamp(22px, 3vw, 36px);
+    color: #000;
+    text-decoration: none;
+    border: 1px solid #000;
+    padding: 0.3em 0.9em;
+    background: #fff;
+}
+
+.popup-signup:hover {
+    background: #000;
+    color: #fff;
+}
+
+.popup-signup:focus-visible {
+    outline: 1px solid #000;
+    outline-offset: 4px;
+}
+
+.popup-signup.nudge {
+    animation: nudge 0.7s ease-in-out;
+}
+
+@keyframes nudge {
+    0%, 100% { rotate: 0deg; scale: 1; }
+    20% { rotate: -3deg; scale: 1.06; }
+    40% { rotate: 3deg; scale: 1.06; }
+    60% { rotate: -2deg; scale: 1.03; }
+    80% { rotate: 1deg; scale: 1; }
+}
+
+.popup-close {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    padding: 8px;
+    border: none;
+    background: none;
+    color: #000;
+    font-size: 28px;
+    line-height: 1;
+    cursor: pointer;
+}
+
+.popup-close:focus-visible {
+    outline: 1px solid #000;
+}
+
+.tile {
+    cursor: pointer;
+}
+
+.tile {
+    transition: scale 0.2s ease;
+}
+
+.tile:hover,
+.tile:focus-visible {
+    scale: 1.06;
+    z-index: 1;
+}
+
+.tile:focus-visible {
+    outline: 2px solid #000;
+    outline-offset: 3px;
+}
+
 @media (max-aspect-ratio: 1/1) {
     body.home {
         --u: min(100vw / 960, 100vh / 1300);

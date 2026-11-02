@@ -1,5 +1,4 @@
-const ring = document.querySelector(".ring");
-const tiles = [...document.querySelectorAll(".tile")];
+const tiles = [...document.querySelectorAll(".invite")];
 const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)");
 
 const popup = document.createElement("div");
@@ -113,23 +112,19 @@ function close() {
         .finished.then(finish);
 }
 
-function openRingTile(tile) {
-    openPopup(tile, () => {
-        const spin = parseFloat(ring.style.getPropertyValue("--spin")) || 0;
-        const angle = parseFloat(tile.style.getPropertyValue("--angle")) || 0;
-        return angle + spin;
-    });
+function openTileAt(tile) {
+    openPopup(tile, () => parseFloat(getComputedStyle(tile).rotate) || 0);
 }
 
 tiles.forEach((tile) => {
     tile.setAttribute("role", "button");
     tile.setAttribute("aria-label", "Ask me out on a (play) date");
     tile.tabIndex = 0;
-    tile.addEventListener("click", () => openRingTile(tile));
+    tile.addEventListener("click", () => openTileAt(tile));
     tile.addEventListener("keydown", (e) => {
         if (e.key === "Enter" || e.key === " ") {
             e.preventDefault();
-            openRingTile(tile);
+            openTileAt(tile);
         }
     });
 });

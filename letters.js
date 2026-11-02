@@ -25,7 +25,3 @@ function pop(span, delay = 0) {
     span.style.setProperty("--pop-delay", `${delay}ms`);
     span.classList.add("hop");
 }
-
-document.querySelector(".wordmark").addEventListener("click", (e) => {
-    e.currentTarget.querySelectorAll(".char").forEach((span, i) => pop(span, i * 60));
-});

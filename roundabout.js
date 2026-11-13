@@ -205,7 +205,7 @@ function drawRim(width) {
     ctx.fillRect(0, height * 0.9, width, height * 0.1);
 
     const text = EDGE_LINE;
-    ctx.font = `400 ${height * 0.42}px "DM Mono", monospace`;
+    ctx.font = `400 ${height * 0.42}px "Hershey Noailles HelpMe", Arial, Helvetica, sans-serif`;
     ctx.letterSpacing = `${height * 0.035}px`;
     ctx.fillStyle = CREAM;
     ctx.textAlign = "center";
@@ -362,8 +362,8 @@ window.addEventListener("resize", () => {
 
 placePhotos();
 restart();
-// redraw the rim once its font has loaded
-document.fonts.load('400 40px "DM Mono"').then(restart, () => {});
+// redraw the rim once its font has loaded; it needs sample text because the font skips spaces
+document.fonts.load('400 40px "Hershey Noailles HelpMe"', "Aa").then(restart, () => {});
 
 fetch(CHANNEL_URL)
     .then((res) => (res.ok ? res.json() : Promise.reject(res.status)))
